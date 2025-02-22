@@ -1,0 +1,93 @@
+<?php
+// session_start();
+include('db_connect.php');
+
+// ตรวจสอบการล็อกอิน
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+
+    // ดึงข้อมูลโปรไฟล์จากฐานข้อมูล
+    $sql = "SELECT profile_image FROM users WHERE user_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    // ถ้าไม่มีการอัปโหลดรูปโปรไฟล์ ใช้รูป default.png
+    $profile_image = !empty($row['profile_image']) ? 'uploads/' . $row['profile_image'] : 'img/default.png';
+} else {
+    $profile_image = 'img/default.png'; // ถ้ายังไม่ได้ล็อกอิน ใช้ default.png
+}
+?>
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <span class="logo-text">นวดแผนไทย</span>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="index.php">หน้าหลัก</a></li>
+            <li><a href="services.php">บริการของเรา</a></li>
+            <li><a href="booking.php">จองคิว</a></li>
+            <li><a href="contact.php">ติดต่อเรา</a></li>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <li class="user-profile">
+                    <img src="<?php echo $profile_image; ?>" alt="Profile Picture" class="profile-img" onclick="toggleDropdown()">
+                    <div class="dropdown-content" id="dropdownMenu">
+                        <a href="user_settings.php">ตั้งค่าบัญชี</a>
+                        <a href="logout.php">ออกจากระบบ</a>
+                    </div>
+                </li>
+            <?php else: ?>
+                <li><a href="login.php" class="active login">เข้าสู่ระบบ</a></li>
+            <?php endif; ?>
+        </ul>
+        <div class="hamburger">☰</div>
+    </div>
+</nav>
+
+<script>
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    const profileImg = document.querySelector('.profile-img');
+
+    hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+    });
+
+    function toggleDropdown() {
+        var dropdownMenu = document.getElementById('dropdownMenu');
+        dropdownMenu.classList.toggle('show');
+    }
+
+    // ปิด dropdown เมื่อคลิกนอกพื้นที่
+    window.addEventListener('click', (e) => {
+        if (!e.target.matches('.profile-img')) {
+            const dropdown = document.getElementById('dropdownMenu');
+            if (dropdown && dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        }
+    });
+
+    // ปิดเมนูเมื่อคลิกลิงก์ในโหมดมือถือ
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                navMenu.classList.remove('active');
+            }
+        });
+    });
+</script>
+</body>
+</html>
