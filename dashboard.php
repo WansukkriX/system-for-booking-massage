@@ -215,7 +215,7 @@ $total_therapists = $row_therapists['total_therapists'];
 
         <div class="action-buttons">
             <a href="manage_users.php">จัดการผู้ใช้</a>
-            <a href="manage_bookings.php">จัดการคิว</a>
+            <a href="view_admin_bookings.php">จัดการคิว</a>
             <a href="manage_therapists.php">จัดการหมอนวด</a>
             <a href="manage_therapists.php">จัดการบริการ</a>
         </div>

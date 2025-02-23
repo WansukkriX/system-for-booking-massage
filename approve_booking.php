@@ -1,8 +1,31 @@
 <?php
-$booking_id = $_GET['id'];
-$conn = new mysqli('localhost', 'root', '', 'ThaiMassageDB');
-$sql = "UPDATE bookings SET status='Approved' WHERE booking_id='$booking_id'";
-$conn->query($sql);
-$conn->close();
-echo "Booking approved!";
+session_start();
+include('db_connect.php');
+
+// ตรวจสอบการล็อกอิน
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    echo "คุณไม่สามารถเข้าถึงหน้านี้ได้";
+    exit();
+}
+
+if (isset($_GET['booking_id'])) {
+    $booking_id = $_GET['booking_id'];
+
+    // เชื่อมต่อฐานข้อมูล
+    $conn = new mysqli('localhost', 'root', '', 'ThaiMassageDB');
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // อัปเดตสถานะการจอง
+    $sql = "UPDATE bookings SET status = 'Approved' WHERE booking_id = '$booking_id'";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "<p>การจองถูกอนุมัติแล้ว!</p>";
+    } else {
+        echo "เกิดข้อผิดพลาดในการอัปเดตสถานะ: " . $conn->error;
+    }
+
+    $conn->close();
+}
 ?>

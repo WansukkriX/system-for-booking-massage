@@ -26,6 +26,8 @@ if (isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -35,13 +37,13 @@ if (isset($_SESSION['user_id'])) {
         }
 
         body {
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8ece5 100%);
         }
 
         .navbar {
-            background-color: #2c3e50;
+            background-color:rgb(70, 120, 70); /* เขียวมะกอก */
             padding: 0.8rem 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             position: fixed;
             width: 100%;
             top: 0;
@@ -62,7 +64,7 @@ if (isset($_SESSION['user_id'])) {
         }
 
         .logo-text {
-            color: #fff;
+            color: #fffcf4; /* ครีมอ่อน */
             font-size: 1.6rem;
             font-weight: 600;
             position: relative;
@@ -76,7 +78,7 @@ if (isset($_SESSION['user_id'])) {
             left: 0;
             width: 100%;
             height: 2px;
-            background: #f1c40f;
+            background: #b89c4a; /* ทองอ่อน */
             transform: scaleX(0.7);
         }
 
@@ -88,30 +90,26 @@ if (isset($_SESSION['user_id'])) {
         }
 
         .nav-menu li a {
-            color: #fff;
+            color: #fffcf4; /* ครีมอ่อน */
             text-decoration: none;
             font-size: 1.1rem;
             padding: 0.6rem 1rem;
-            border-radius: 4px;
-            transition: all 0.2s ease;
+            border-radius: 10px;
+            transition: all 0.3s ease;
         }
 
         .nav-menu li a:hover {
-            background-color: #34495e;
+            background-color: #6b876b; /* เขียวอ่อน */
         }
 
         .nav-menu li a.active {
-           border-radius:20px;
-            background-color:rgba(241, 196, 15, 0.63);
-            border-bottom: 2px solid #f1c40f;
-        }
-        .nav-menu li a.active:hover {
-           
-            background-color:#f1c40f;
-           
+            background-color: rgba(184, 156, 74, 0.63); /* ทองอ่อนโปร่งแสง */
+            border-bottom: 2px solid #b89c4a; /* ทองอ่อน */
         }
 
-        
+        .nav-menu li a.active:hover {
+            background-color: #b89c4a; /* ทองอ่อน */
+        }
 
         .user-profile {
             position: relative;
@@ -122,15 +120,15 @@ if (isset($_SESSION['user_id'])) {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            border: 2px solid #f1c40f;
+            border: 2px solid #b89c4a; /* ทองอ่อน */
             object-fit: cover;
             cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .profile-img:hover{
+        .profile-img:hover {
             transform: scale(1.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
         .dropdown-content {
@@ -138,24 +136,25 @@ if (isset($_SESSION['user_id'])) {
             position: absolute;
             top: 50px;
             right: 0;
-            background-color: #f1c40f;
-            border-radius: 4px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background-color: #fffcf4; /* ครีมอ่อน */
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             min-width: 180px;
+            border: 1px solid #e0d8b0;
         }
 
         .dropdown-content a {
             display: block;
             padding: 0.8rem 1.2rem;
             text-decoration: none;
-            color:rgb(0, 136, 255);
-            transition: all 0.2s ease;
+            color: #4a704a; /* เขียวมะกอก */
+            transition: all 0.3s ease;
             font-size: 1rem;
         }
 
         .dropdown-content a:hover {
-            background-color: #f5f6fa;
-            color: #2c3e50;
+            background-color: #f8f4e6; /* ครีมเข้ม */
+            color: #b89c4a; /* ทองอ่อน */
         }
 
         .show {
@@ -164,7 +163,7 @@ if (isset($_SESSION['user_id'])) {
 
         .hamburger {
             display: none;
-            color: #fff;
+            color: #fffcf4; /* ครีมอ่อน */
             font-size: 1.5rem;
             cursor: pointer;
             padding: 0.3rem 0.6rem;
@@ -173,7 +172,7 @@ if (isset($_SESSION['user_id'])) {
         }
 
         .hamburger:hover {
-            border-color: rgba(255,255,255,0.3);
+            border-color: #b89c4a; /* ทองอ่อน */
         }
 
         @media (max-width: 768px) {
@@ -191,16 +190,15 @@ if (isset($_SESSION['user_id'])) {
                 top: 100%;
                 left: 0;
                 width: 100%;
-                background-color: #2c3e50;
+                background-color: #4a704a; /* เขียวมะกอก */
                 padding: 1rem;
                 flex-direction: column;
                 gap: 0.8rem;
-                border-top: 1px solid rgba(255,255,255,0.1);
+                border-top: 1px solid #e0d8b0;
             }
 
             .nav-menu.active {
                 display: flex;
-                
             }
 
             .nav-menu li {
@@ -212,11 +210,11 @@ if (isset($_SESSION['user_id'])) {
                 text-align: center;
                 padding: 0.8rem;
                 width: 100%;
-                border-radius: 4px;
+                border-radius: 10px;
             }
 
             .nav-menu li a:hover {
-                background-color: #34495e;
+                background-color: #6b876b; /* เขียวอ่อน */
             }
 
             .user-profile {
@@ -227,22 +225,22 @@ if (isset($_SESSION['user_id'])) {
             }
 
             .dropdown-content {
-                width: 90%;
                 position: static;
+                width: 90%;
                 margin: 0.5rem auto;
                 box-shadow: none;
-                border: 1px solid rgba(255,255,255,0.1);
-                background-color: #34495e;
+                border: 1px solid #e0d8b0;
+                background-color: #fffcf4; /* ครีมอ่อน */
             }
 
             .dropdown-content a {
-                color: #fff;
+                color: #4a704a; /* เขียวมะกอก */
                 text-align: center;
             }
 
             .dropdown-content a:hover {
-                background-color: #2c3e50;
-                color: #fff;
+                background-color: #f8f4e6; /* ครีมเข้ม */
+                color: #b89c4a; /* ทองอ่อน */
             }
 
             .logo-text {
@@ -265,7 +263,6 @@ if (isset($_SESSION['user_id'])) {
             }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar">
@@ -276,8 +273,8 @@ if (isset($_SESSION['user_id'])) {
         <ul class="nav-menu">
             <li><a href="index.php">หน้าหลัก</a></li>
             <li><a href="#services">บริการของเรา</a></li>
-            <!-- <li><a href="booking.php">จองคิว</a></li> -->
             <li><a href="contact.php">ติดต่อเรา</a></li>
+            <li><a href="view_user_bookings.php">การจองคิว</a></li>
             <?php if (isset($_SESSION['user_id'])): ?>
                 <li class="user-profile">
                     <img src="<?php echo $profile_image; ?>" alt="Profile Picture" class="profile-img" onclick="toggleDropdown()">
@@ -290,7 +287,7 @@ if (isset($_SESSION['user_id'])) {
                 <li><a href="login.php" class="active login">เข้าสู่ระบบ</a></li>
             <?php endif; ?>
         </ul>
-        <div class="hamburger">☰</div>
+        <div class="hamburger"><i class="fas fa-bars"></i></div>
     </div>
 </nav>
 
@@ -308,7 +305,6 @@ if (isset($_SESSION['user_id'])) {
         dropdownMenu.classList.toggle('show');
     }
 
-    // ปิด dropdown เมื่อคลิกนอกพื้นที่
     window.addEventListener('click', (e) => {
         if (!e.target.matches('.profile-img')) {
             const dropdown = document.getElementById('dropdownMenu');
@@ -318,7 +314,6 @@ if (isset($_SESSION['user_id'])) {
         }
     });
 
-    // ปิดเมนูเมื่อคลิกลิงก์ในโหมดมือถือ
     document.querySelectorAll('.nav-menu a').forEach(link => {
         link.addEventListener('click', () => {
             if (window.innerWidth <= 768) {
